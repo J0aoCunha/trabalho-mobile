@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Auth } from './src/screens/Auth/index';
+import { Home } from "./src/screens/Home";
+import { Details } from "./src/screens/Details";
+import { ForgotPassword } from "./src/screens/ForgotPassword";
 
-export default function App() {
+export type RootStackParamList = {
+  Auth: undefined;
+  Home: undefined;
+  Details: { groupId: number }; // Definindo os parâmetros para a tela de detalhes
+  ForgotPassword: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+const App: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Auth">
+        <Stack.Screen name="Auth" options={{headerShown:false}} component={Auth} />
+        <Stack.Screen name="Home" options={{headerShown:false}} component={Home} />
+        <Stack.Screen name="Details" options={{headerShown:false}} component={Details} />
+        <Stack.Screen name="ForgotPassword" options={{headerShown:false}} component={ForgotPassword} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
