@@ -6,14 +6,13 @@ import {
   Platform,
   Text,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
 import { Button, Input } from "@rneui/themed";
 import { supabase } from "../../services/supabase";
 
 import { NavigationProp } from '@react-navigation/native';
 
-export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
+export function CreateAccount({ navigation }: { navigation: NavigationProp<any> }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,37 +23,21 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
     });
 
     if (error) {
-      Alert.alert("aconteceu um erro"+error);
+      Alert.alert("Erro ao cadastrar", error.message);
       return;
     }
 
     if (session) {
-      Alert.alert("Cadastro realizado com sucesso");
-    }
-  }
-
-  async function handleSignIn() {
-    const { data: session, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.log(error);
-      return;
-    } else {
-      navigation.navigate("Home");
-      console.log("Login realizado com sucesso");
+      Alert.alert("Cadastro realizado com sucesso!");
+      navigation.navigate("Auth"); // Redireciona para a tela de login
     }
   }
 
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Bem-vindo</Text>
-        <Text style={styles.subtitle}>
-          Por favor, entre ou cadastre-se para continuar
-        </Text>
+        <Text style={styles.title}>Criar Conta</Text>
+        <Text style={styles.subtitle}>Preencha os campos abaixo para se cadastrar</Text>
         <View style={styles.inputGroup}>
           <Input
             label="Email"
@@ -86,21 +69,16 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
         </View>
         <View style={styles.buttonGroup}>
           <Button
-            title="Entrar"
-            onPress={handleSignIn}
+            title="Cadastrar"
+            onPress={handleSignUp}
             buttonStyle={styles.button}
           />
           <Button
-            title="Cadastrar-se"
-            onPress={()=>{
-              navigation.navigate("Create");
-            }}
-            buttonStyle={[styles.button, styles.signUpButton]}
-            titleStyle={styles.signUpTitle}
+            title="Voltar"
+            onPress={() => navigation.goBack()}
+            buttonStyle={[styles.button, styles.backButton]}
+            titleStyle={styles.backTitle}
           />
-           <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-            <Text style={styles.forgotPassword}>Esqueci minha senha</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -153,14 +131,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
     paddingHorizontal: 10,
-    paddingVertical:  6,
+    paddingVertical: 6,
     marginVertical: 10,
   },
   buttonGroup: {
     display: "flex",
-    width: "100%", // Ajuste para garantir o layout correto
-    alignItems: "center", // Centraliza os botões
-    justifyContent: "center", // Centraliza os botões verticalmente
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   button: {
     display: "flex",
@@ -170,18 +148,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: 300,
   },
-  signUpButton: {
+  backButton: {
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#6200ea",
   },
-  signUpTitle: {
+  backTitle: {
     color: "#6200ea",
-  },
-  forgotPassword: {
-    fontSize: 14,
-    color: "#6200ea",
-    textAlign: "center",
-    marginTop: 10,
   },
 });

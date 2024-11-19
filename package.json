@@ -2,6 +2,11 @@
   "name": "trabalho-mobile",
   "version": "1.0.0",
   "main": "index.ts",
+  "platforms": [
+    "ios",
+    "android",
+    "web"
+  ],
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -20,7 +25,10 @@
     "react-native": "0.76.2",
     "react-native-safe-area-context": "^4.14.0",
     "react-native-screens": "^4.1.0",
-    "react-native-url-polyfill": "^2.0.0"
+    "react-native-url-polyfill": "^2.0.0",
+    "react-dom": "18.3.1",
+    "react-native-web": "~0.19.13",
+    "@expo/metro-runtime": "~4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
